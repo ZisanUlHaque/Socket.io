@@ -12,6 +12,20 @@ export const orderHandler = (io, socket) =>{
               return callback({success: false, message: validation.message});
             }
             
+            const totals = calculateTotals(data.items);
+            const orderId = generateOrderId();
+            const order = createOrderDocument(data, orderId, totals);
+
+            const ordersCollection = getCollection('orders');
+            await ordersCollection.insertOne(order);
+
+            socket.join(`order-${orderId}`);
+            socket.join('customers');
+
+            io.to('admins').emit('newOrder',{order})
+
+            callback({success: true, order})
+            console.log(`order created: ${orderId}`)
 
 
         }catch(error){
