@@ -33,4 +33,22 @@ export const orderHandler = (io, socket) =>{
             callback({success: false, message: 'Failed to place order...'})
         }
     })
+
+    // track order
+    socket.on("trackOrder", async(data, callback)=>{
+        try{
+            const ordersCollection = getCollection('orders');
+        const order = await ordersCollection.findOne({orderId: data.orderId});
+        if(!order){
+            return callback({success: false, message: 'Order not found'});
+        }
+
+        socket.join(`order-${data.orderId}`);
+        callback({success: true, order});
+        }catch(error){
+            console.error('Order tracking error', error)
+            callback({success: false, message: error.message});
+        }
+    })
+
 }
