@@ -104,5 +104,24 @@ export const orderHandler = (io, socket) =>{
         }
     })
 
+
+        // admin event
+
+    //admin login
+    socket.on('adminLogin', async(data, callback)=>{
+        try{
+            if(data.password === process.env.ADMIN_PASSWORD){
+                socket.isAdmin = true;
+                socket.join("admins");
+                console.log(`admin logged in: ${socket.id}`)
+                callback({success: true});
+            }else{
+                callback({success: false, message: 'invalid password'});
+            }
+        }catch(error){
+            callback({success: false, message: "login failed"})
+        }
+    })
+
 }
 
