@@ -123,5 +123,24 @@ export const orderHandler = (io, socket) =>{
         }
     })
 
+
+        // get all orders
+    socket.on('getAllOrders', async(data, callback)=>{
+        try{
+            if(!socket.isAdmin){
+                return callback({success: false, message: "Unauthorized"})
+            }
+
+            const orderCollection = getCollection('orders');
+            const filter = data?.status ? {status: data.status} : {};
+            const orders = await orderCollection.find(filter).sort({createdAt: -1}).limit(20).toArray();
+
+            callback({succes: true, orders});
+
+        }catch(error){
+            callback({success: false, message: "failed to load orders"});
+        }
+    })
+
 }
 
