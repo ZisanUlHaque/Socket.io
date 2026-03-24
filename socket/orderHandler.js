@@ -105,7 +105,7 @@ export const orderHandler = (io, socket) =>{
     })
 
 
-        // admin event
+    // admin event
 
     //admin login
     socket.on('adminLogin', async(data, callback)=>{
