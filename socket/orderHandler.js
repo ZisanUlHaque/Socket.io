@@ -142,6 +142,8 @@ export const orderHandler = (io, socket) =>{
         }
     })
 
+    //order status update
+    
     socket.on("updateOrderStatus", async(data, callback)=>{
         try{
             const orderCollection = getCollection('orders');
