@@ -188,5 +188,4 @@ npm install
 ## 📺 Ready to Start?
 
 
-Let's build something amazing together!# Socket.io
-# Socket.io
+Let's build something amazing together!

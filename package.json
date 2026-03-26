@@ -1,7 +1,7 @@
 {
   "name": "order-tracking-backend",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
   "description": "Real-time order tracking backend - Learn Socket.IO",
   "main": "server.js",
   "scripts": {
@@ -17,9 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongodb": "^7.0.0",
+    "mongodb": "^7.1.1",
     "socket.io": "^4.8.3"
   },
   "devDependencies": {
