@@ -350,6 +350,7 @@ export const orderHandler = (io, socket) => {
             callback({ success: false, message: 'Failed to load stats' });
         }
     });
+    
 
     // Disconnect
     socket.on('disconnect', () => {
