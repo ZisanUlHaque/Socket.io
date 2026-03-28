@@ -351,6 +351,7 @@ export const orderHandler = (io, socket) => {
         }
     });
     
+    
 
     // Disconnect
     socket.on('disconnect', () => {
