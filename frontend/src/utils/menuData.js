@@ -1,5 +1,3 @@
-// utils/menuData.js
-// Sample menu items
 
 export const menuItems = [
   {
