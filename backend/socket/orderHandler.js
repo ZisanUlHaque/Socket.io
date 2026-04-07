@@ -36,7 +36,17 @@ export const orderHandler = (io, socket) => {
             socket.join(`order_${orderId}`);
             socket.join('customers');
 
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const totalToday = await ordersCollection.countDocuments({ createdAt: { $gte: today } });
+
             io.to('admins').emit('newOrder', { order });
+            io.to('customers').emit('liveOrderActivity', {
+                message: 'A fresh kitchen order is rolling through the system!',
+                totalOrders: totalToday,
+                type: 'new-order',
+                timestamp: new Date()
+            });
 
             callback({ success: true, order });
             console.log(`✅ Order created: ${orderId}`);
@@ -202,6 +212,12 @@ export const orderHandler = (io, socket) => {
             );
 
             io.to(`order_${data.orderId}`).emit('statusUpdated', { orderId: data.orderId, status: data.newStatus, order: result });
+            io.to('customers').emit('liveOrderActivity', {
+                message: `Order ${data.orderId.slice(-4)} is now ${data.newStatus.replace('_', ' ')}`,
+                type: 'status-update',
+                timestamp: new Date(),
+                orderId: data.orderId
+            });
             socket.to('admins').emit('orderStatusChanged', { orderId: data.orderId, newStatus: data.newStatus });
 
             callback({ success: true, order: result });
@@ -245,6 +261,12 @@ export const orderHandler = (io, socket) => {
             );
 
             io.to(`order_${data.orderId}`).emit('orderAccepted', { orderId: data.orderId, estimatedTime });
+            io.to('customers').emit('liveOrderActivity', {
+                message: `Order ${data.orderId.slice(-4)} has been confirmed and is being prepared.`,
+                type: 'order-accepted',
+                timestamp: new Date(),
+                orderId: data.orderId
+            });
             socket.to('admins').emit('orderAcceptedByAdmin', { orderId: data.orderId });
 
             callback({ success: true, order: result });
@@ -310,6 +332,12 @@ export const orderHandler = (io, socket) => {
 
             if (result) {
                 io.to(`order_${data.orderId}`).emit('estimatedTimeUpdated', { orderId: data.orderId, estimatedTime: data.estimatedTime });
+                io.to('customers').emit('liveOrderActivity', {
+                    message: `Estimated time for order ${data.orderId.slice(-4)} updated to ${data.estimatedTime} minutes.`,
+                    type: 'time-update',
+                    timestamp: new Date(),
+                    orderId: data.orderId
+                });
                 callback({ success: true, order: result });
             } else {
                 callback({ success: false, message: 'Order not found' });
@@ -350,8 +378,6 @@ export const orderHandler = (io, socket) => {
             callback({ success: false, message: 'Failed to load stats' });
         }
     });
-    
-    
 
     // Disconnect
     socket.on('disconnect', () => {

@@ -26,6 +26,16 @@ export const useSocket = () => {
       console.log("❌ Disconnected from server");
     });
 
+    // Reconnect attempts
+    socketRef.current.on("reconnect_attempt", (attempt) => {
+      console.log(`🔁 Reconnect attempt ${attempt}`);
+    });
+
+    socketRef.current.on("connect_error", (error) => {
+      setConnected(false);
+      console.error("⚠️ Socket connection failed:", error.message || error);
+    });
+
     // Server welcome message
     socketRef.current.on("connected", (data) => {
       console.log("📨 Server message:", data.message);

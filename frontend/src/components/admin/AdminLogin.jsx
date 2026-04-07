@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ConnectionStatus from '../common/ConnectionStatus';
 
-const AdminLogin = ({ socket, onLoginSuccess, onShowNotification }) => {
+const AdminLogin = ({ socket, connected, onLoginSuccess, onShowNotification }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const AdminLogin = ({ socket, onLoginSuccess, onShowNotification }) => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
-      <ConnectionStatus connected={socket?.connected} isFixed={true} />
+      <ConnectionStatus connected={connected} isFixed={true} />
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Header */}

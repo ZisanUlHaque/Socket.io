@@ -47,10 +47,12 @@ const OrderDetail = ({ order, onClose, socket, onShowNotification }) => {
         border: "border-indigo-200",
         label: "Confirmed",
       },
-      preparing: "bg-orange-50",
-      text: "text-orange-700",
-      border: "border-orange-200",
-      label: "Preparing",
+      preparing: {
+        bg: "bg-orange-50",
+        text: "text-orange-700",
+        border: "border-orange-200",
+        label: "Preparing",
+      },
       ready: {
         bg: "bg-green-50",
         text: "text-green-700",

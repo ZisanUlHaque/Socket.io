@@ -4,7 +4,7 @@ import OrderCard from './OrderCard';
 import OrderDetail from './OrderDetail';
 import ConnectionStatus from '../common/ConnectionStatus';
 
-const AdminDashboard = ({ socket, onShowNotification, onLogout }) => {
+const AdminDashboard = ({ socket, connected, onShowNotification, onLogout }) => {
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState(null);
   const [activeTab, setActiveTab] = useState('pending');
@@ -190,7 +190,7 @@ const AdminDashboard = ({ socket, onShowNotification, onLogout }) => {
             </div>
             
             <div className="flex items-center gap-3 justify-end">
-              <ConnectionStatus connected={socket?.connected} />
+              <ConnectionStatus connected={connected} />
               
               <button
                 onClick={loadOrders}

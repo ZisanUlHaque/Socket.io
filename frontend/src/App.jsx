@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import { useSocket } from './hooks/useSocket';
+import './App.css';
 
 // Common Components
 import Notification from './components/common/Notification';
@@ -18,6 +19,7 @@ import OrderHistory from './components/customer/OrderHistory';
 // Admin Components
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
+import LandingPage from './components/customer/LandingPage';
 
 function App() {
   const { socket, connected } = useSocket();
@@ -121,10 +123,12 @@ function App() {
           <Route
             path="/"
             element={
-              <>
-                <Header cartCount={cart.length} connected={connected} />
-                <Menu onAddToCart={addToCart} />
-              </>
+              <LandingPage
+                cartCount={cart.length}
+                onAddToCart={addToCart}
+                socket={socket}
+                connected={connected}
+              />
             }
           />
 
@@ -171,6 +175,16 @@ function App() {
           />
 
           <Route
+            path="/menu"
+            element={
+              <>
+                <Header cartCount={cart.length} connected={connected} />
+                <Menu onAddToCart={addToCart} />
+              </>
+            }
+          />
+
+          <Route
             path="/orders"
             element={
               <>
@@ -190,12 +204,14 @@ function App() {
               isAdminLoggedIn ? (
                 <AdminDashboard
                   socket={socket}
+                  connected={connected}
                   onShowNotification={showNotification}
                   onLogout={handleAdminLogout}
                 />
               ) : (
                 <AdminLogin
                   socket={socket}
+                  connected={connected}
                   onLoginSuccess={handleAdminLogin}
                   onShowNotification={showNotification}
                 />
