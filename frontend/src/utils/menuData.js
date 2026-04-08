@@ -46,7 +46,7 @@ export const menuItems = [
     description: 'Creamy pasta with crispy bacon, eggs, and parmesan cheese',
     price: 13.99,
     category: 'Pasta',
-    image: 'https://images.unsplash.com/photo-1551892376-c73baef88c40?w=400&h=300&fit=crop',
+    image: 'https://i.ibb.co.com/0jvPjg4F/pexels-klaus-nielsen-6287555.jpg',
     popular: true,
     tags: ['Creamy', 'Italian']
   },
@@ -56,7 +56,7 @@ export const menuItems = [
     description: 'Spicy tomato sauce with garlic, chili flakes, and olive oil',
     price: 11.99,
     category: 'Pasta',
-    image: 'https://images.unsplash.com/photo-1551892376-c73baef88c40?w=400&h=300&fit=crop',
+    image: 'https://i.ibb.co.com/gZByM5DW/pexels-saif-allah-dawoud-576915631-19098018.jpg',
     tags: ['Spicy', 'Vegetarian']
   },
   {

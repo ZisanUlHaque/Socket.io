@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router';
 import { useSocket } from './hooks/useSocket';
 import './App.css';
 
@@ -10,6 +15,7 @@ import Notification from './components/common/Notification';
 import Header from './components/common/Header';
 
 // Customer Components
+import LandingPage from './components/customer/LandingPage';
 import Menu from './components/customer/Menu';
 import Cart from './components/customer/Cart';
 import OrderForm from './components/customer/OrderForm';
@@ -19,52 +25,58 @@ import OrderHistory from './components/customer/OrderHistory';
 // Admin Components
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
-import LandingPage from './components/customer/LandingPage';
 
 function App() {
   const { socket, connected } = useSocket();
-  const [cart, setCart] = useState([]);
+
+  // ✅ cart lazy init from localStorage (refresh করলেও থাকবে)
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch (err) {
+      console.error('Failed to parse cart from localStorage', err);
+      return [];
+    }
+  });
+
   const [notification, setNotification] = useState(null);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  // Load cart from localStorage
+  // শুধু admin login state লোড হবে এখানে
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (error) {
-        console.error('Failed to load cart:', error);
-      }
-    }
-
-    // Check admin login status
     const adminStatus = localStorage.getItem('isAdmin');
     if (adminStatus === 'true') {
       setIsAdminLoggedIn(true);
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // cart change হলেই localStorage এ save হবে
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    try {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    } catch (err) {
+      console.error('Failed to save cart', err);
+    }
   }, [cart]);
 
-  // Show notification helper
+  // Notification helper
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
   };
 
   // Cart functions
   const addToCart = (item) => {
-    const existingItem = cart.find(cartItem => cartItem.id === item.id);
-    
+    const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+
     if (existingItem) {
-      setCart(cart.map(cartItem =>
-        cartItem.id === item.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
-      ));
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
+      );
       showNotification(`Added another ${item.name} to cart`, 'success');
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
@@ -78,13 +90,15 @@ function App() {
       return;
     }
 
-    setCart(cart.map(item =>
-      item.id === itemId ? { ...item, quantity: newQuantity } : item
-    ));
+    setCart(
+      cart.map((item) =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
   const removeFromCart = (itemId) => {
-    setCart(cart.filter(item => item.id !== itemId));
+    setCart(cart.filter((item) => item.id !== itemId));
     showNotification('Item removed from cart', 'info');
   };
 
@@ -102,6 +116,7 @@ function App() {
 
   const handleAdminLogout = () => {
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('adminPass'); // যদি আগের মত ব্যবহার করো
     setIsAdminLoggedIn(false);
     showNotification('Logged out successfully', 'success');
   };
@@ -133,6 +148,16 @@ function App() {
           />
 
           <Route
+            path="/menu"
+            element={
+              <>
+                <Header cartCount={cart.length} connected={connected} />
+                <Menu onAddToCart={addToCart} />
+              </>
+            }
+          />
+
+          <Route
             path="/cart"
             element={
               <>
@@ -156,6 +181,8 @@ function App() {
                   cart={cart}
                   socket={socket}
                   onShowNotification={showNotification}
+                  // চাইলে অর্ডার সফল হলে Cart clear করো
+                  onClearCart={clearCart}
                 />
               </>
             }
@@ -170,16 +197,6 @@ function App() {
                   socket={socket}
                   onShowNotification={showNotification}
                 />
-              </>
-            }
-          />
-
-          <Route
-            path="/menu"
-            element={
-              <>
-                <Header cartCount={cart.length} connected={connected} />
-                <Menu onAddToCart={addToCart} />
               </>
             }
           />

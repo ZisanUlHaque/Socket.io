@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-const OrderForm = ({ cart, socket, onShowNotification }) => {
+const OrderForm = ({ cart, socket, onShowNotification, onClearCart }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -9,14 +9,17 @@ const OrderForm = ({ cart, socket, onShowNotification }) => {
     customerPhone: '',
     customerAddress: '',
     specialNotes: '',
-    paymentMethod: 'cash'
+    paymentMethod: 'cash',
   });
   const [errors, setErrors] = useState({});
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const tax = subtotal * 0.10;
-    const deliveryFee = 5.00;
+    const subtotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    const tax = subtotal * 0.1;
+    const deliveryFee = 5.0;
     const total = subtotal + tax + deliveryFee;
     return { subtotal, tax, deliveryFee, total };
   };
@@ -25,26 +28,25 @@ const OrderForm = ({ cart, socket, onShowNotification }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
   const validate = () => {
     const newErrors = {};
-    
+
     if (!formData.customerName.trim()) {
       newErrors.customerName = 'Name is required';
     }
-    
+
     if (!formData.customerPhone.trim()) {
       newErrors.customerPhone = 'Phone number is required';
     } else if (formData.customerPhone.length < 10) {
       newErrors.customerPhone = 'Enter a valid phone number';
     }
-    
+
     if (!formData.customerAddress.trim()) {
       newErrors.customerAddress = 'Delivery address is required';
     } else if (formData.customerAddress.length < 10) {
@@ -55,9 +57,9 @@ const OrderForm = ({ cart, socket, onShowNotification }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validate()) {
       onShowNotification('Please fill all required fields correctly', 'error');
       return;
@@ -68,158 +70,197 @@ const OrderForm = ({ cart, socket, onShowNotification }) => {
       return;
     }
 
+    if (!socket) {
+      onShowNotification('Not connected to server', 'error');
+      return;
+    }
+
     setLoading(true);
 
     const orderData = {
       ...formData,
-      items: cart.map(item => ({
+      items: cart.map((item) => ({
         id: item.id,
         name: item.name,
         quantity: item.quantity,
         price: item.price,
-        image: item.image
+        image: item.image,
       })),
       subtotal: totals.subtotal,
       tax: totals.tax,
       deliveryFee: totals.deliveryFee,
-      totalAmount: totals.total
+      totalAmount: totals.total,
     };
 
     socket.emit('placeOrder', orderData, (response) => {
       setLoading(false);
-      
-      if (response.success) {
+
+      if (response?.success) {
         onShowNotification('Order placed successfully! 🎉', 'success');
-        // Navigate to tracking page
+
+        // ✅ Order সফল হলে cart clear হবে (confirm ছাড়া)
+        if (onClearCart) {
+          onClearCart(true);
+        }
+
+        // Track page এ পাঠাই
         setTimeout(() => {
           navigate(`/track/${response.order.orderId}`);
-        }, 1000);
+        }, 800);
       } else {
-        onShowNotification(response.message || 'Failed to place order', 'error');
+        onShowNotification(
+          response?.message || 'Failed to place order',
+          'error'
+        );
       }
     });
   };
 
   if (cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="text-8xl mb-6">🛒</div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h2>
-          <p className="text-gray-600 mb-8">Add items to your cart before checkout</p>
+      <section className="bg-[#FFF8EC]">
+        <div className="mx-auto max-w-4xl px-4 py-20 text-center">
+          <div className="mb-4 text-6xl">🐝</div>
+          <h2 className="mb-2 text-3xl font-black text-slate-900">
+            Your BeeBite cart is empty
+          </h2>
+          <p className="mb-8 text-sm text-slate-600 md:text-base">
+            Add some sweet dishes before you check out.
+          </p>
           <button
-            onClick={() => navigate('/')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium"
+            onClick={() => navigate('/menu')}
+            className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-8 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-orange-600 hover:shadow-xl hover:-translate-y-[1px]"
           >
-            Browse Menu
+            🍽️ Browse menu
           </button>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+    <section className="bg-[#FFF8EC] py-16">
+      <div className="mx-auto max-w-6xl px-4">
+        <h1 className="mb-8 text-3xl font-black text-slate-900 md:text-4xl">
+          Checkout
+        </h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Order Form */}
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* LEFT: form */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-              {/* Customer Information */}
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 rounded-3xl bg-white/95 p-6 shadow-md md:p-7"
+            >
+              {/* Customer info */}
               <div>
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Customer Information</h2>
-                
+                <h2 className="mb-4 text-lg font-bold text-slate-900">
+                  Customer information
+                </h2>
+
                 <div className="space-y-4">
                   {/* Name */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
+                    <label className="mb-1 block text-xs font-semibold text-slate-700">
+                      Full name *
                     </label>
                     <input
                       type="text"
                       name="customerName"
                       value={formData.customerName}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.customerName ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full rounded-lg border px-4 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-400 ${
+                        errors.customerName
+                          ? 'border-rose-400'
+                          : 'border-slate-300'
                       }`}
                       placeholder="John Doe"
                     />
                     {errors.customerName && (
-                      <p className="text-red-500 text-sm mt-1">{errors.customerName}</p>
+                      <p className="mt-1 text-xs text-rose-500">
+                        {errors.customerName}
+                      </p>
                     )}
                   </div>
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
+                    <label className="mb-1 block text-xs font-semibold text-slate-700">
+                      Phone number *
                     </label>
                     <input
                       type="tel"
                       name="customerPhone"
                       value={formData.customerPhone}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.customerPhone ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full rounded-lg border px-4 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-400 ${
+                        errors.customerPhone
+                          ? 'border-rose-400'
+                          : 'border-slate-300'
                       }`}
-                      placeholder="+1234567890"
+                      placeholder="01XXXXXXXXX"
                     />
                     {errors.customerPhone && (
-                      <p className="text-red-500 text-sm mt-1">{errors.customerPhone}</p>
+                      <p className="mt-1 text-xs text-rose-500">
+                        {errors.customerPhone}
+                      </p>
                     )}
                   </div>
 
                   {/* Address */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Delivery Address *
+                    <label className="mb-1 block text-xs font-semibold text-slate-700">
+                      Delivery address *
                     </label>
                     <textarea
                       name="customerAddress"
                       value={formData.customerAddress}
                       onChange={handleChange}
                       rows="3"
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.customerAddress ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full rounded-lg border px-4 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-400 ${
+                        errors.customerAddress
+                          ? 'border-rose-400'
+                          : 'border-slate-300'
                       }`}
-                      placeholder="123 Main St, Apt 4B, City, ZIP"
+                      placeholder="House, Road, Area, City"
                     />
                     {errors.customerAddress && (
-                      <p className="text-red-500 text-sm mt-1">{errors.customerAddress}</p>
+                      <p className="mt-1 text-xs text-rose-500">
+                        {errors.customerAddress}
+                      </p>
                     )}
                   </div>
 
-                  {/* Special Notes */}
+                  {/* Notes */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Special Instructions (Optional)
+                    <label className="mb-1 block text-xs font-semibold text-slate-700">
+                      Special instructions (optional)
                     </label>
                     <textarea
                       name="specialNotes"
                       value={formData.specialNotes}
                       onChange={handleChange}
                       rows="2"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Ring doorbell twice, leave at door, etc."
+                      className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-400"
+                      placeholder="No onion, extra spicy, ring twice, etc."
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Payment Method */}
+              {/* Payment */}
               <div>
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
+                <h2 className="mb-4 text-lg font-bold text-slate-900">
+                  Payment method
+                </h2>
                 <div className="space-y-3">
-                  {['cash', 'card', 'online'].map(method => (
+                  {['cash', 'card', 'online'].map((method) => (
                     <label
                       key={method}
-                      className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition ${
+                      className={`flex cursor-pointer items-center gap-3 rounded-2xl border-2 p-3 text-sm transition ${
                         formData.paymentMethod === method
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-gray-300 hover:border-gray-400'
+                          ? 'border-orange-500 bg-orange-50'
+                          : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <input
@@ -228,68 +269,79 @@ const OrderForm = ({ cart, socket, onShowNotification }) => {
                         value={method}
                         checked={formData.paymentMethod === method}
                         onChange={handleChange}
-                        className="w-5 h-5 text-blue-600"
+                        className="h-4 w-4 text-orange-500"
                       />
-                      <span className="font-medium capitalize">{method} on Delivery</span>
+                      <span className="font-semibold capitalize">
+                        {method} on delivery
+                      </span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full rounded-full bg-orange-500 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-orange-600 hover:shadow-xl hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60 disabled:translate-y-0"
               >
-                {loading ? 'Placing Order...' : 'Place Order'}
+                {loading ? 'Placing order…' : 'Place order'}
               </button>
             </form>
           </div>
 
-          {/* Order Summary */}
+          {/* RIGHT: summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-24">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+            <div className="sticky top-24 rounded-3xl bg-white/95 p-6 shadow-md">
+              <h2 className="mb-4 text-lg font-bold text-slate-900">
+                Order summary
+              </h2>
 
-              {/* Items */}
-              <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
-                {cart.map(item => (
-                  <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-gray-700">
-                      {item.quantity}x {item.name}
+              <div className="mb-4 max-h-60 space-y-2 overflow-y-auto text-sm">
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between text-slate-700"
+                  >
+                    <span>
+                      {item.quantity}× {item.name}
                     </span>
-                    <span className="font-medium text-gray-800">
+                    <span className="font-semibold">
                       ${(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* Totals */}
-              <div className="border-t pt-4 space-y-2">
-                <div className="flex justify-between text-gray-700">
+              <div className="space-y-2 border-t border-slate-200 pt-3 text-sm text-slate-700">
+                <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>${totals.subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
+                <div className="flex justify-between">
                   <span>Tax (10%)</span>
                   <span>${totals.tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Delivery Fee</span>
+                <div className="flex justify-between">
+                  <span>Delivery fee</span>
                   <span>${totals.deliveryFee.toFixed(2)}</span>
                 </div>
-                <div className="border-t pt-2 flex justify-between text-xl font-bold">
+                <div className="flex justify-between border-t border-slate-200 pt-2 text-base font-bold text-slate-900">
                   <span>Total</span>
-                  <span className="text-blue-600">${totals.total.toFixed(2)}</span>
+                  <span className="text-orange-600">
+                    ${totals.total.toFixed(2)}
+                  </span>
                 </div>
               </div>
+
+              <p className="mt-3 text-[11px] text-slate-500">
+                By placing this order you agree to our terms. Average delivery
+                time is 20–30 minutes.
+              </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

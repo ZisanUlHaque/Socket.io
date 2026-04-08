@@ -1,21 +1,36 @@
-import { Link, useNavigate } from 'react-router';
-import { useState } from 'react';
-import ConnectionStatus from './ConnectionStatus';
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
+import ConnectionStatus from "./ConnectionStatus";
 
-const Header = ({ cartCount = 0, showCart = true, showAdmin = true, connected }) => {
+const Header = ({
+  cartCount = 0,
+  showCart = true,
+  showAdmin = true,
+  connected,
+}) => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const BeeLogo = () => (
+    <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-amber-500 shadow-md">
+      <span className="text-xl">🐝</span>
+      {/* tiny live dot on logo */}
+      <div className="absolute -right-1 -bottom-1 flex h-3 w-3 items-center justify-center rounded-full bg-white/80">
+        <span className="h-2 w-2 rounded-full bg-amber-500" />
+      </div>
+    </div>
+  );
+
   return (
-    <header className="bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 text-white shadow-lg sticky top-0 z-40">
+    <header className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white shadow-lg sticky top-0 z-40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
-            <span className="text-3xl">🍕</span>
+          <Link to="/" className="flex items-center gap-3">
+            <BeeLogo />
             <div>
-              <h1 className="text-xl font-bold">FoodTrack</h1>
-              <p className="text-xs text-orange-200">Real-time Order Tracking</p>
+              <h1 className="text-lg font-bold text-slate-900">BeeBite</h1>
+              <p className="text-xs text-slate-500">Fresh & sweet delivery</p>
             </div>
           </Link>
 
@@ -24,7 +39,7 @@ const Header = ({ cartCount = 0, showCart = true, showAdmin = true, connected })
             {/* Cart - Always Visible */}
             {showCart && (
               <button
-                onClick={() => navigate('/cart')}
+                onClick={() => navigate("/cart")}
                 className="relative hover:bg-orange-500 px-3 py-2 rounded-lg transition"
               >
                 <span className="text-2xl">🛒</span>
@@ -61,7 +76,7 @@ const Header = ({ cartCount = 0, showCart = true, showAdmin = true, connected })
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-orange-500 transition text-2xl"
             >
-              {isMenuOpen ? '✕' : '☰'}
+              {isMenuOpen ? "✕" : "☰"}
             </button>
           </div>
         </div>
@@ -93,10 +108,13 @@ const Header = ({ cartCount = 0, showCart = true, showAdmin = true, connected })
                 <span>Admin Dashboard</span>
               </Link>
             )}
-            
+
             <button
-               onClick={() => { setIsMenuOpen(false); navigate('/'); }}
-               className="text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition text-gray-600"
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate("/");
+              }}
+              className="text-left px-4 py-3 hover:bg-gray-50 rounded-xl transition text-gray-600"
             >
               Home
             </button>
