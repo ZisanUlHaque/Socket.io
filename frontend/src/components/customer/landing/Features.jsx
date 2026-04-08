@@ -2,119 +2,186 @@ const Features = () => {
   const features = [
     {
       title: 'Real-Time Order Tracking',
-      description: 'Watch your order progress from kitchen to doorstep with live updates and estimated delivery times.',
+      description:
+        'Watch your order progress from kitchen to doorstep with live updates and accurate ETAs.',
       icon: '📍',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop',
-      color: 'blue'
+      image:
+        'https://i.ibb.co.com/7xFP0mW3/pexels-technobulka-8824105.jpg',
+      tag: 'LIVE',
     },
     {
       title: 'Fresh Ingredients Only',
-      description: 'We partner with local farms and suppliers to ensure every dish uses the freshest, highest quality ingredients.',
+      description:
+        'We partner with local farms and suppliers so every dish uses the freshest, highest‑quality ingredients.',
       icon: '🥬',
-      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=200&fit=crop',
-      color: 'green'
+      image:
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=700&h=500&fit=crop',
+      tag: 'FRESH',
     },
     {
       title: 'Expert Chefs',
-      description: 'Our professional chefs bring years of experience and passion to every dish they prepare.',
+      description:
+        'Our chefs bring years of experience and passion to every plate that leaves the kitchen.',
       icon: '👨‍🍳',
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop',
-      color: 'orange'
+      image:
+        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&h=500&fit=crop',
+      tag: 'CHEF',
     },
     {
       title: 'Lightning Fast Delivery',
-      description: 'Our dedicated delivery team ensures your food arrives hot and fresh within 30 minutes or less.',
+      description:
+        'Dedicated riders ensure your food arrives hot and on time, usually within 25–30 minutes.',
       icon: '🚀',
-      image: 'https://images.unsplash.com/photo-1556909114-4c36e03d48a8?w=300&h=200&fit=crop',
-      color: 'purple'
+      image:
+        'https://i.ibb.co.com/SDvgZZsn/pexels-rdne-7363098.jpg',
+      tag: 'FAST',
     },
     {
       title: 'Secure Payments',
-      description: 'Multiple payment options with bank-level security to keep your transactions safe and secure.',
+      description:
+        'Multiple payment options with bank‑level encryption to keep your transactions safe.',
       icon: '🔒',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop',
-      color: 'red'
+      image:
+        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&h=500&fit=crop',
+      tag: 'SECURE',
     },
     {
       title: '24/7 Customer Support',
-      description: 'Our friendly support team is always ready to help with any questions or concerns you might have.',
+      description:
+        'Friendly support ready to help with any questions, any time of day or night.',
       icon: '💬',
-      image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=300&h=200&fit=crop',
-      color: 'indigo'
-    }
+      image:
+        'https://i.ibb.co.com/rRZ2NG5C/pexels-yankrukov-8867434.jpg',
+      tag: '24/7',
+    },
   ];
 
-  const colorClasses = {
-    blue: 'bg-orange-50 border-orange-200 text-orange-700',
-    green: 'bg-green-50 border-green-200 text-green-700',
-    orange: 'bg-orange-50 border-orange-200 text-orange-700',
-    purple: 'bg-purple-50 border-purple-200 text-purple-700',
-    red: 'bg-red-50 border-red-200 text-red-700',
-    indigo: 'bg-indigo-50 border-indigo-200 text-indigo-700'
-  };
-
   return (
-    <section id="features" className="py-24 bg-white">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section
+      id="features"
+      className="relative overflow-hidden bg-[#FFF7EA] py-20 md:py-24"
+    >
+      {/* decorative bees & doodles */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* left bee */}
+        <div className="absolute top-16 left-6 md:left-12">
+          <span className="text-2xl">🐝</span>
+        </div>
+        {/* right bee + simple dotted path */}
+        <div className="absolute top-10 right-6 md:right-16 flex items-center gap-2">
+          <svg
+            width="120"
+            height="40"
+            viewBox="0 0 120 40"
+            fill="none"
+            className="text-orange-300"
+          >
+            <path
+              d="M5 30 C 35 5, 70 5, 115 20"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeDasharray="4 4"
+            />
+          </svg>
+          <span className="text-2xl">🐝</span>
+        </div>
+        {/* simple leaf doodles bottom corners */}
+        <div className="absolute bottom-6 left-4 text-orange-200">
+          <svg
+            width="60"
+            height="90"
+            viewBox="0 0 60 90"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+          >
+            <path d="M10 80 C 15 45, 25 35, 30 10" />
+            <path d="M10 70 C 5 60, 5 50, 15 45" />
+            <path d="M18 55 C 24 50, 26 44, 25 37" />
+          </svg>
+        </div>
+        <div className="absolute bottom-6 right-4 text-orange-200 rotate-180">
+          <svg
+            width="60"
+            height="90"
+            viewBox="0 0 60 90"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+          >
+            <path d="M10 80 C 15 45, 25 35, 30 10" />
+            <path d="M10 70 C 5 60, 5 50, 15 45" />
+            <path d="M18 55 C 24 50, 26 44, 25 37" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-4">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 mb-4">
-            <span className="text-lg">✨</span>
-            Why Choose Us
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-            Everything you need for
-            <span className="block text-slate-600">perfect food delivery</span>
+        <div className="mb-12 text-center md:mb-16">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-orange-500">
+            Our features
+          </p>
+          <h2 className="mb-3 text-3xl font-black text-slate-900 md:text-4xl">
+            Everything you need
+            <span className="block text-orange-500">
+              for perfect delivery
+            </span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            We combine cutting-edge technology with traditional cooking excellence
-            to deliver an unparalleled food ordering experience.
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">
+            Built like a premium honey shop, but for food delivery. Clean,
+            simple and focused on what matters most.
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* Features grid – product style (like image) */}
+        <div className="grid gap-10 md:grid-cols-3">
           {features.map((feature, index) => (
-            <div key={feature.title} className="group bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-              {/* Image */}
-              <div className="relative h-40 overflow-hidden">
-                <img
-                  src={feature.image}
-                  alt={feature.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className={`absolute top-4 left-4 w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-lg ${colorClasses[feature.color]}`}>
-                  {feature.icon}
+            <div
+              key={feature.title}
+              className="group flex flex-col items-center text-center"
+            >
+              {/* main product image */}
+              <div className="relative mb-6 flex h-56 w-full items-center justify-center md:h-64">
+                <div className="absolute inset-x-6 bottom-2 h-5 rounded-full bg-slate-300/30 blur-md" />
+                <div className="relative flex h-full w-full items-center justify-center">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="max-h-full w-auto rounded-3xl bg-white object-contain shadow-[0_18px_40px_rgba(15,23,42,0.18)] transition-transform duration-300 group-hover:scale-[1.05]"
+                  />
+                  {index === 0 && (
+                    <span className="absolute -top-3 right-8 rounded-full bg-orange-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+                      New
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+              {/* title + icon pill */}
+              <h3 className="mb-1 text-sm font-black tracking-[0.16em] text-slate-900 md:text-base">
+                {feature.title.toUpperCase()}
+              </h3>
+              <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold text-orange-600 shadow-sm">
+                <span>{feature.icon}</span>
+                <span>{feature.tag}</span>
               </div>
+
+              {/* description */}
+              <p className="mb-4 max-w-xs text-xs leading-relaxed text-slate-600 md:text-sm">
+                {feature.description}
+              </p>
+
+              {/* small CTA, like “ADD TO CART” row */}
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-900 transition-colors group-hover:text-orange-600"
+              >
+                <span className="h-[1px] w-6 bg-slate-400 group-hover:bg-orange-500" />
+                Learn more
+              </button>
             </div>
           ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-3xl p-8 border border-slate-200">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">Ready to experience the difference?</h3>
-            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who trust us with their food orders every day.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="inline-flex items-center justify-center gap-3 rounded-2xl bg-slate-900 px-8 py-4 text-lg font-semibold text-white shadow-xl shadow-slate-900/25 transition-all hover:bg-slate-800 hover:shadow-2xl hover:-translate-y-1">
-                <span>🍽️</span>
-                <span>Start Ordering Now</span>
-              </button>
-              <button className="inline-flex items-center justify-center gap-3 rounded-2xl border-2 border-slate-200 bg-white px-8 py-4 text-lg font-semibold text-slate-700 shadow-lg transition-all hover:border-slate-300 hover:shadow-xl hover:-translate-y-1">
-                <span>📞</span>
-                <span>Contact Support</span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </section>

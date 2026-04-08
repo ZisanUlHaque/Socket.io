@@ -1,77 +1,145 @@
 import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
 
 const Footer = () => {
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '#' },
-      { name: 'Our Chefs', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press', href: '#' }
+      { name: 'About Us', href: '/about', internal: true },
+      { name: 'Our Chefs', href: '/chefs', internal: true },
+      { name: 'Careers', href: '/careers', internal: true },
+      { name: 'Press', href: '/press', internal: true },
     ],
     support: [
-      { name: 'Help Center', href: '#' },
-      { name: 'Contact Us', href: '#' },
-      { name: 'Track Order', href: '/orders' },
-      { name: 'Delivery Info', href: '#' }
+      { name: 'Help Center', href: '/help', internal: true },
+      { name: 'Contact Us', href: '/contact', internal: true },
+      { name: 'Track Order', href: '/orders', internal: true },
+      { name: 'Delivery Info', href: '/delivery', internal: true },
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Cookie Policy', href: '#' },
-      { name: 'Accessibility', href: '#' }
+      { name: 'Privacy Policy', href: '/privacy', internal: true },
+      { name: 'Terms of Service', href: '/terms', internal: true },
+      { name: 'Cookie Policy', href: '/cookies', internal: true },
+      { name: 'Accessibility', href: '/accessibility', internal: true },
     ],
     social: [
       { name: 'Facebook', href: '#', icon: '📘' },
       { name: 'Instagram', href: '#', icon: '📷' },
       { name: 'Twitter', href: '#', icon: '🐦' },
-      { name: 'YouTube', href: '#', icon: '📺' }
-    ]
+      { name: 'YouTube', href: '#', icon: '📺' },
+    ],
+  };
+
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    const checkOpen = () => {
+      const hour = new Date().getHours();
+      setIsOpen(hour >= 10 && hour < 23);
+    };
+    checkOpen();
+    const id = setInterval(checkOpen, 60000);
+    return () => clearInterval(id);
+  }, []);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    setStatus(null);
+
+    const trimmed = email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!trimmed || !emailRegex.test(trimmed)) {
+      setStatus('error');
+      return;
+    }
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setStatus('success');
+      setEmail('');
+    }, 900);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-slate-900 text-white">
-      {/* Main Footer */}
-      <div className="container mx-auto px-4 py-16">
+    <footer className="bg-amber-500 text-white">
+      {/* Main Footer - Compact Version */}
+      <div className="container mx-auto max-w-6xl px-4 py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center text-xl font-bold">
-                🍽️
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="mb-4 flex items-center gap-3 text-left"
+            >
+              <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-500 to-amber-400 text-xl shadow-md">
+                🐝
+                <span className="absolute -right-1 -bottom-1 h-3 w-3 rounded-full bg-emerald-400 shadow" />
               </div>
-              <span className="text-2xl font-bold">FoodTrack</span>
-            </div>
-            <p className="text-slate-300 mb-6 leading-relaxed max-w-md">
-              Revolutionizing food delivery with real-time tracking, fresh ingredients,
-              and exceptional service. Your favorite meals, delivered with care.
+              <div>
+                <span className="block text-2xl font-bold">BeeBite</span>
+                <span className="text-xs font-medium text-white">
+                  Fresh & sweet delivery
+                </span>
+              </div>
+            </button>
+
+            <p className="mb-5 max-w-md text-sm leading-relaxed text-white">
+              BeeBite brings your favourite meals from hive to home with realtime tracking and fresh ingredients.
             </p>
 
-            {/* Contact Info */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-slate-300">
+            {/* Open status */}
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-white">
+              <span
+                className={`h-2.5 w-2.5 rounded-full ${
+                  isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'
+                }`}
+              />
+              {isOpen ? 'We are taking orders now' : 'We’re currently closed'}
+            </div>
+
+            {/* Contact Info - smaller */}
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-3 text-white">
                 <span className="text-orange-400">📞</span>
-                <span>1-800-FOODTRACK</span>
+                <span>1‑800‑BEEBITE</span>
               </div>
-              <div className="flex items-center gap-3 text-slate-300">
+              <div className="flex items-center gap-3 text-white">
                 <span className="text-orange-400">✉️</span>
-                <span>hello@foodtrack.com</span>
+                <span>hello@beebite.com</span>
               </div>
-              <div className="flex items-center gap-3 text-slate-300">
+              <div className="flex items-center gap-3 text-white">
                 <span className="text-orange-400">📍</span>
-                <span>123 Food Street, Cuisine City, FC 12345</span>
+                <span>123 Honeycomb Ave, Food City</span>
               </div>
             </div>
           </div>
 
           {/* Company Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Company</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-base font-semibold">Company</h3>
+            <ul className="space-y-2 text-sm">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-slate-300 hover:text-white transition-colors">
-                    {link.name}
-                  </a>
+                  {link.internal ? (
+                    <Link to={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -79,13 +147,19 @@ const Footer = () => {
 
           {/* Support Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Support</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-base font-semibold">Support</h3>
+            <ul className="space-y-2 text-sm">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-slate-300 hover:text-white transition-colors">
-                    {link.name}
-                  </Link>
+                  {link.internal ? (
+                    <Link to={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -93,73 +167,25 @@ const Footer = () => {
 
           {/* Legal Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Legal</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-4 text-base font-semibold">Legal</h3>
+            <ul className="space-y-2 text-sm">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-slate-300 hover:text-white transition-colors">
-                    {link.name}
-                  </a>
+                  {link.internal ? (
+                    <Link to={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-white hover:text-white transition-colors">
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="mt-12 pt-8 border-t border-slate-700">
-          <div className="max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
-            <p className="text-slate-300 mb-6">Get the latest updates on new restaurants, special offers, and food trends.</p>
-            <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
-              />
-              <button className="px-6 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-semibold transition-colors">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Footer */}
-      <div className="border-t border-slate-700 bg-slate-950">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="text-slate-400 text-sm">
-              © 2026 FoodTrack. All rights reserved. Made with ❤️ for food lovers.
-            </div>
-
-            {/* Social Links */}
-            <div className="flex gap-4">
-              {footerLinks.social.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-lg transition-colors"
-                  aria-label={social.name}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-
-            {/* App Store Links */}
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-semibold transition-colors">
-                <span>📱</span>
-                App Store
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-semibold transition-colors">
-                <span>🤖</span>
-                Google Play
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </footer>
   );

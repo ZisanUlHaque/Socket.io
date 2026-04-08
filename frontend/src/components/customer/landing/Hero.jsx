@@ -9,21 +9,21 @@ const featuredDishes = [
   {
     id: 1,
     image:
-      'https://images.unsplash.com/photo-1606755962773-0c3f76cda19a?w=900&h=900&fit=crop',
+      'https://i.ibb.co.com/F4Znpp3v/pexels-natan-machado-fotografia-gastronomica-162809799-15141035.jpg',
     name: 'Smoky Burger',
     tag: 'Most ordered today',
   },
   {
     id: 2,
     image:
-      'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=900&h=900&fit=crop',
+      'https://i.ibb.co.com/7JhmgR9J/pexels-davegarcia-32371277.jpg',
     name: 'Pasta Alfredo',
     tag: "Chef's special",
   },
   {
     id: 3,
     image:
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&h=900&fit=crop',
+      'https://i.ibb.co.com/Q7CFM0QF/pexels-mohamed9380-36934933.jpg',
     name: 'Sushi Platter',
     tag: 'Fresh arrival',
   },

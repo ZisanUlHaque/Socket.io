@@ -1,67 +1,84 @@
 const Newsletter = () => {
   return (
-    <section className="py-24 bg-gradient-to-r from-orange-500 to-orange-600">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white mb-6">
-              <span className="text-lg">📧</span>
-              Stay Connected
+    <section
+      id="newsletter"
+      className="relative overflow-hidden bg-[#FFF7EA] py-16 md:py-20"
+    >
+      {/* decorative bees & dotted path */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* top-left bee */}
+        <div className="absolute top-10 left-6 md:left-16 text-xl">
+          🐝
+        </div>
+
+        {/* bottom-right bee + path */}
+        <div className="absolute bottom-6 right-6 md:right-16 flex items-center gap-2">
+          <svg
+            width="120"
+            height="50"
+            viewBox="0 0 120 50"
+            fill="none"
+            className="text-orange-200"
+          >
+            <path
+              d="M5 40 C 35 15, 70 15, 115 30"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeDasharray="4 4"
+            />
+          </svg>
+          <span className="text-xl">🐝</span>
+        </div>
+      </div>
+
+      <div className="relative mx-auto max-w-5xl px-4">
+        {/* main card */}
+        <div className="grid gap-10 rounded-3xl bg-[#FFFDF8] px-6 py-10 shadow-[0_20px_50px_rgba(15,23,42,0.08)] md:grid-cols-2 md:px-10 md:py-12">
+          {/* LEFT: honey image */}
+          <div className="flex items-center justify-center">
+            <div className="relative max-w-xs">
+              <div className="absolute -left-6 -top-6 h-20 w-20 rounded-full bg-orange-100/70 blur-2xl" />
+              <img
+                src="https://i.ibb.co.com/PvZ15srZ/pexels-wkn-992646-12039747.jpg"
+                alt="Honeycomb and honey jar"
+                className="relative z-10 w-full max-w-xs rounded-[32px] bg-white object-contain shadow-[0_22px_45px_rgba(249,115,22,0.45)]"
+              />
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-              Never miss a delicious
-              <span className="block">moment</span>
-            </h2>
-            <p className="text-xl text-orange-100 leading-relaxed">
-              Get exclusive deals, early access to new restaurants, and insider tips
-              on the best food in town. Join our community of food lovers today.
-            </p>
           </div>
 
-          {/* Newsletter Form */}
-          <div className="bg-white rounded-3xl p-8 shadow-2xl max-w-2xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-4">
+          {/* RIGHT: copy + form */}
+          <div className="flex flex-col justify-center">
+            <h2 className="text-lg font-bold tracking-[0.16em] text-slate-900 md:text-xl">
+              NEWSLETTER SIGN UP
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-[0.95rem]">
+              Get offers as sweet as honey. Be the first to know about new
+              restaurants, seasonal menus, and exclusive BeeBite deals
+              delivered straight to your inbox.
+            </p>
+
+            {/* form */}
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="mt-6 flex flex-col gap-3 sm:flex-row"
+            >
               <input
                 type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-2xl border border-slate-200 text-slate-900 placeholder-slate-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                placeholder="Email Address"
+                className="w-full rounded-none border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-400"
               />
-              <button className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-2xl shadow-lg transition-all hover:shadow-xl hover:-translate-y-1 whitespace-nowrap">
-                Subscribe Now
+              <button
+                type="submit"
+                className="whitespace-nowrap rounded-none bg-orange-600 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-orange-700"
+              >
+                Subscribe
               </button>
-            </div>
+            </form>
 
-            <p className="text-sm text-slate-500 mt-4">
-              By subscribing, you agree to receive marketing emails. You can unsubscribe at any time.
+            <p className="mt-3 text-[11px] text-slate-500">
+              We respect your privacy. Unsubscribe anytime with a single
+              click.
             </p>
-          </div>
-
-          {/* Benefits */}
-          <div className="grid md:grid-cols-3 gap-8 mt-16">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-                🎁
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Exclusive Deals</h3>
-              <p className="text-orange-100">Get access to member-only discounts and special offers</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-                🔔
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Early Access</h3>
-              <p className="text-orange-100">Be the first to try new restaurants and menu items</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-                📱
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Food Tips</h3>
-              <p className="text-orange-100">Receive expert food recommendations and cooking tips</p>
-            </div>
           </div>
         </div>
       </div>

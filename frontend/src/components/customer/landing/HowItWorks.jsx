@@ -29,7 +29,7 @@ const steps = [
     description:
       'Watch your order move from the kitchen to your doorstep with live ETA and status updates.',
     image:
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop',
+      'https://i.ibb.co.com/99tZgw7b/pexels-caleboquendo-7738879.jpg',
     icon: '📍',
     cta: 'Track your order',
     details: ['Minute‑by‑minute updates', 'Accurate ETA tracking', 'Contact your rider'],

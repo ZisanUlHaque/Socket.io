@@ -6,104 +6,121 @@ const FAQ = () => {
   const faqs = [
     {
       question: 'How does real-time order tracking work?',
-      answer: 'Our advanced tracking system provides live updates from the moment you place your order. You can see when your food is being prepared, when it leaves the restaurant, and track the delivery driver in real-time until it arrives at your door.'
+      answer:
+        'Our advanced tracking system provides live updates from the moment you place your order. You can see when your food is being prepared, when it leaves the restaurant, and track the delivery driver in real-time until it arrives at your door.',
     },
     {
       question: 'What if my food arrives cold or incorrect?',
-      answer: 'We guarantee hot, fresh food delivery. If your order arrives cold, incorrect, or unsatisfactory, contact our support team immediately. We\'ll make it right with a replacement or full refund, plus we\'ll work with the restaurant to ensure it doesn\'t happen again.'
+      answer:
+        "We guarantee hot, fresh food delivery. If your order arrives cold, incorrect, or unsatisfactory, contact our support team immediately. We'll make it right with a replacement or full refund, plus we’ll work with the restaurant to ensure it doesn’t happen again.",
     },
     {
       question: 'How long does delivery typically take?',
-      answer: 'Most orders arrive within 25-35 minutes from placement to delivery. During peak hours, it may take up to 45 minutes. You\'ll receive real-time updates and can track your order\'s progress throughout the entire journey.'
+      answer:
+        "Most orders arrive within 25–35 minutes from placement to delivery. During peak hours, it may take up to 45 minutes. You'll receive real-time updates and can track your order's progress throughout the entire journey.",
     },
     {
       question: 'Are there any delivery fees?',
-      answer: 'Delivery fees vary by restaurant and distance, typically ranging from $2.99 to $4.99. Many restaurants offer free delivery on orders over $25. You\'ll see all fees clearly before checkout.'
+      answer:
+        'Delivery fees vary by restaurant and distance, typically ranging from $2.99 to $4.99. Many restaurants offer free delivery on orders over $25. You’ll see all fees clearly before checkout.',
     },
     {
       question: 'Can I schedule orders for later?',
-      answer: 'Yes! You can schedule orders up to 7 days in advance. Choose your preferred delivery time during checkout, and we\'ll ensure your food arrives exactly when you want it.'
+      answer:
+        'Yes! You can schedule orders up to 7 days in advance. Choose your preferred delivery time during checkout, and we’ll ensure your food arrives exactly when you want it.',
     },
     {
       question: 'What areas do you deliver to?',
-      answer: 'We currently deliver to most urban and suburban areas. Enter your address during checkout to see if we service your location. We\'re constantly expanding our delivery network.'
-    }
+      answer:
+        'We currently deliver to most urban and suburban areas. Enter your address during checkout to see if we service your location. We’re constantly expanding our delivery network.',
+    },
   ];
 
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index) =>
     setOpenIndex(openIndex === index ? -1 : index);
-  };
 
   return (
-    <section id="faq" className="py-24 bg-white">
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 mb-4">
-            <span className="text-lg">❓</span>
-            Frequently Asked Questions
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-            Got questions?
-            <span className="block text-orange-600">We've got answers</span>
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Everything you need to know about ordering with FoodTrack.
-            Can't find what you're looking for? Our support team is here to help.
-          </p>
-        </div>
+    <section
+      id="faq"
+      className="bg-[#FFF8EC] py-20 md:py-24"
+    >
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="grid gap-10 items-start md:grid-cols-[minmax(0,1.8fr)_minmax(0,1.1fr)]">
+          {/* LEFT: heading + FAQ list */}
+          <div>
+            <h2 className="text-3xl font-black text-slate-900 md:text-4xl">
+              Frequently asked questions
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600 md:text-base">
+              Everything you need to know about ordering with BeeBite.
+              If you still can’t find your answer, our team is here to
+              help 24/7.
+            </p>
 
-        {/* FAQ List */}
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div key={index} className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-slate-50 transition-colors"
+            <div className="mt-8 border-t border-slate-200">
+              {faqs.map((faq, index) => (
+                <div
+                  key={faq.question}
+                  className="border-b border-slate-200"
                 >
-                  <span className="text-lg font-semibold text-slate-900 pr-4">
-                    {faq.question}
-                  </span>
-                  <span className={`text-2xl text-orange-500 transform transition-transform duration-200 ${
-                    openIndex === index ? 'rotate-45' : ''
-                  }`}>
-                    +
-                  </span>
-                </button>
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="flex w-full items-center justify-between gap-4 py-4 text-left hover:bg-orange-50/40 transition-colors"
+                  >
+                    <span className="text-sm font-semibold text-slate-900 md:text-base">
+                      {faq.question}
+                    </span>
+                    <span
+                      className={`text-lg text-orange-500 transition-transform duration-200 ${
+                        openIndex === index ? 'rotate-180' : ''
+                      }`}
+                    >
+                      ▾
+                    </span>
+                  </button>
 
-                <div className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}>
-                  <div className="px-8 pb-6">
-                    <p className="text-slate-600 leading-relaxed">
+                  <div
+                    className={`overflow-hidden transition-all duration-250 ${
+                      openIndex === index
+                        ? 'max-h-40 opacity-100'
+                        : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <p className="pb-4 pr-6 text-sm leading-relaxed text-slate-600 md:text-[0.95rem]">
                       {faq.answer}
                     </p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT: illustration panel */}
+          <div className="relative mt-6 hidden md:flex items-center justify-center">
+            <div className="relative max-w-xs">
+              <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-orange-200/60 blur-2xl" />
+              <div className="absolute -bottom-8 -left-8 h-28 w-28 rounded-full bg-amber-200/60 blur-2xl" />
+              <img
+                src="https://i.ibb.co.com/BH6c7y7c/4464b47eec22bcf445ef2e20d1d5f22f.jpg"
+                alt="Question and food illustration"
+                className="rounded-3xl"
+              />
+              {/* little bee */}
+              <div className="absolute -top-4 left-4 text-2xl">
+                🐝
               </div>
-            ))}
+            </div>
           </div>
         </div>
 
-        {/* Contact CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-slate-50 to-orange-50 rounded-3xl p-8 border border-slate-200 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">Still have questions?</h3>
-            <p className="text-slate-600 mb-6">
-              Our friendly support team is available 24/7 to help with any questions or concerns.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="inline-flex items-center gap-3 rounded-2xl bg-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-orange-700 hover:shadow-xl hover:-translate-y-1">
-                <span>💬</span>
-                <span>Chat with Support</span>
-              </button>
-              <button className="inline-flex items-center gap-3 rounded-2xl border-2 border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-lg transition-all hover:border-slate-300 hover:shadow-xl hover:-translate-y-1">
-                <span>📧</span>
-                <span>Send Email</span>
-              </button>
-            </div>
-          </div>
+        {/* Small contact CTA under FAQs */}
+        <div className="mt-10 rounded-2xl border border-orange-100 bg-white/80 px-5 py-4 text-center text-xs text-slate-600 md:text-sm">
+          Still need help? Chat with us in the app or email
+          <span className="font-semibold text-orange-600">
+            {' '}
+            support@beebite.com
+          </span>
+          .
         </div>
       </div>
     </section>

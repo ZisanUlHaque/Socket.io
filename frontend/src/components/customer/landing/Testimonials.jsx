@@ -1,105 +1,156 @@
+import { Link } from 'react-router';
+
 const Testimonials = () => {
   const testimonials = [
     {
       name: 'Sarah Johnson',
       role: 'Food Blogger',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
-      rating: 5,
-      review: 'The real-time tracking is incredible! I could see exactly when my order was being prepared and when the delivery driver picked it up. The food arrived hot and fresh.',
-      order: 'Margherita Pizza & Garlic Bread'
+      image:
+        'https://i.ibb.co.com/MyPg9Pm9/pexels-olly-761973.jpg',
+      quote: 'The real‑time tracking is incredible!',
+      accent: 'border-orange-400',
+      glow: 'shadow-orange-200',
     },
     {
       name: 'Mike Chen',
       role: 'Busy Professional',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
-      rating: 5,
-      review: 'As someone who orders food multiple times a week, the live updates save me so much time. No more wondering where my food is - I know exactly!',
-      order: 'Sushi Platter & Miso Soup'
+      image:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=900&fit=crop',
+      quote: 'Live updates save me so much time.',
+      accent: 'border-amber-400',
+      glow: 'shadow-amber-200',
     },
     {
       name: 'Emily Rodriguez',
       role: 'Student',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
-      rating: 5,
-      review: 'The photos of the food are amazing and match exactly what I received. The delivery was super fast and the live chat with the kitchen was helpful.',
-      order: 'Chicken Tikka Masala & Naan'
-    }
+      image:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=900&fit=crop',
+      quote: 'The delivery was super fast!',
+      accent: 'border-emerald-400',
+      glow: 'shadow-emerald-200',
+    },
+  ];
+
+  // grid positions to mimic the SiteGround layout:
+  const positions = [
+    'md:row-start-1 md:col-start-1', // top-left
+    'md:row-start-1 md:col-start-2', // top-right
+    'md:row-start-2 md:col-start-2', // bottom-right (offset)
   ];
 
   return (
-    <section id="testimonials" className="py-24 bg-slate-50">
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 mb-4">
-            <span className="text-lg">⭐</span>
-            Customer Reviews
+    <section id="testimonials" className="bg-white">
+      {/* Top part – text + image grid */}
+      <div className="mx-auto max-w-6xl px-4 py-20 md:py-24">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          {/* LEFT: text + CTAs */}
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-orange-700">
+              <span>⭐</span>
+              <span>Success stories</span>
+            </div>
+
+            <h2 className="mb-4 text-3xl font-black leading-tight text-slate-900 md:text-4xl">
+              Inspiring orders,
+              <span className="block text-orange-500">
+                delivered with care
+              </span>
+            </h2>
+
+            <p className="mb-8 max-w-md text-sm leading-relaxed text-slate-700 md:text-[0.95rem]">
+              Real reviews from real customers. See how BeeBite brings
+              delicious meals to food lovers with speed, freshness and
+              a smile.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                to="/reviews"
+                className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all hover:bg-orange-600 hover:shadow-xl hover:-translate-y-[1px]"
+              >
+                Read stories
+              </Link>
+              <Link
+                to="/menu"
+                className="inline-flex items-center gap-2 text-sm font-bold text-orange-600 transition-colors hover:text-orange-700"
+              >
+                Start yours →
+              </Link>
+            </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-            Loved by food lovers
-            <span className="block text-green-600">everywhere</span>
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Don't just take our word for it. Here's what our customers say about their
-            real-time food ordering experience.
-          </p>
-        </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid gap-8 md:grid-cols-3 mb-16">
-          {testimonials.map((testimonial, index) => (
-            <div key={testimonial.name} className="bg-white rounded-3xl p-8 shadow-lg border border-slate-200">
-              {/* Rating */}
-              <div className="flex items-center gap-1 mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">⭐</span>
-                ))}
-                <span className="ml-2 text-sm text-slate-600">({testimonial.rating}.0)</span>
-              </div>
-
-              {/* Review */}
-              <blockquote className="text-slate-700 mb-6 leading-relaxed">
-                "{testimonial.review}"
-              </blockquote>
-
-              {/* Order */}
-              <div className="text-sm text-slate-500 mb-6 italic">
-                Ordered: {testimonial.order}
-              </div>
-
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <div className="font-semibold text-slate-900">{testimonial.name}</div>
-                  <div className="text-sm text-slate-600">{testimonial.role}</div>
+          {/* RIGHT: image card grid like the screenshot */}
+          <div className="relative">
+            <div className="grid auto-rows-[210px] gap-4 md:auto-rows-[240px] md:grid-cols-2">
+              {testimonials.map((t, idx) => (
+                <div
+                  key={t.name}
+                  className={`group relative overflow-hidden rounded-3xl border-2 bg-slate-900 text-white shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl ${t.accent} ${t.glow} ${positions[idx]}`}
+                >
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="h-full w-full object-cover"
+                  />
+                  {/* dark gradient overlay */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+                  {/* text overlay */}
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="text-xs font-semibold text-amber-50 md:text-sm">
+                      {t.quote}
+                    </p>
+                    <p className="mt-1 text-[11px] text-amber-200 md:text-xs">
+                      {t.name} · {t.role}
+                    </p>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* small bee */}
+            <div className="pointer-events-none absolute -left-4 -bottom-4 text-2xl">
+              🐝
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom stats strip */}
+      <div className="border-t border-orange-100 bg-orange-50/60">
+        <div className="mx-auto max-w-6xl px-4 py-10">
+          <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-4">
+            <div>
+              <div className="text-2xl font-black text-slate-900 md:text-3xl">
+                4.8<span className="text-orange-500">★</span>
+              </div>
+              <div className="text-xs text-slate-600 md:text-sm">
+                Average rating
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-            <div className="text-3xl font-bold text-slate-900 mb-2">4.8★</div>
-            <div className="text-sm text-slate-600">Average Rating</div>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-            <div className="text-3xl font-bold text-slate-900 mb-2">2,500+</div>
-            <div className="text-sm text-slate-600">Happy Customers</div>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-            <div className="text-3xl font-bold text-slate-900 mb-2">15min</div>
-            <div className="text-sm text-slate-600">Avg Delivery Time</div>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-            <div className="text-3xl font-bold text-slate-900 mb-2">98%</div>
-            <div className="text-sm text-slate-600">Satisfaction Rate</div>
+            <div>
+              <div className="text-2xl font-black text-slate-900 md:text-3xl">
+                2,500+
+              </div>
+              <div className="text-xs text-slate-600 md:text-sm">
+                Happy customers
+              </div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-slate-900 md:text-3xl">
+                15<span className="text-sm text-slate-400">min</span>
+              </div>
+              <div className="text-xs text-slate-600 md:text-sm">
+                Avg delivery time
+              </div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-slate-900 md:text-3xl">
+                98%
+              </div>
+              <div className="text-xs text-slate-600 md:text-sm">
+                Satisfaction rate
+              </div>
+            </div>
           </div>
         </div>
       </div>
