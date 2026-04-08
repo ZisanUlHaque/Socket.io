@@ -10,7 +10,7 @@ import {
 } from '../utils/helper.js';
 
 export const orderHandler = (io, socket) => {
-    console.log(`👤 User connected: ${socket.id}`);
+    // console.log(`👤 User connected: ${socket.id}`);
 
     // ======================
     // CUSTOMER EVENTS

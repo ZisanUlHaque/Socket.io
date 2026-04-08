@@ -25,7 +25,7 @@ const io = new Server(server,
 );
 
 io.on("connection", (socket) => {
-  console.log("a user connected", socket.id);
+  // console.log("a user connected", socket.id);
   socket.emit("connected", { message: `User ${socket.id} connected` });
   socket.join('customers');
 
@@ -116,18 +116,18 @@ app.use((req, res) => {
 // ==========================================
 
 process.on('uncaughtException', (error) => {
-  console.error('💥 Uncaught Exception:', error);
+  // console.error('💥 Uncaught Exception:', error);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.error('💥 Unhandled Rejection:', reason);
+  // console.error('💥 Unhandled Rejection:', reason);
   process.exit(1);
 });
 
 // Graceful shutdown
 const shutdown = async () => {
-  console.log('\n👋 Shutting down gracefully...');
+  // console.log('\n👋 Shutting down gracefully...');
   await closeDB();
   process.exit(0);
 };
@@ -143,21 +143,21 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
   server.listen(PORT, () => {
-    console.log(`
-╔════════════════════════════════════════╗
-║  🚀 Server Running                     ║
-║  📡 Port: ${PORT}                         ║
-║  🌐 http://localhost:${PORT}              ║
-║  📊 MongoDB: Connected                 ║
-╚════════════════════════════════════════╝
-    `);
-    console.log('📝 API Endpoints:');
-    console.log(`   GET  /health`);
-    console.log(`   GET  /api/orders`);
-    console.log(`   GET  /api/orders/:orderId`);
-    console.log('\n✨ Ready! time to explore Socket.IO \n');
+//     console.log(`
+// ╔════════════════════════════════════════╗
+// ║  🚀 Server Running                     ║
+// ║  📡 Port: ${PORT}                         ║
+// ║  🌐 http://localhost:${PORT}              ║
+// ║  📊 MongoDB: Connected                 ║
+// ╚════════════════════════════════════════╝
+//     `);
+//     console.log('📝 API Endpoints:');
+//     console.log(`   GET  /health`);
+//     console.log(`   GET  /api/orders`);
+//     console.log(`   GET  /api/orders/:orderId`);
+//     console.log('\n✨ Ready! time to explore Socket.IO \n');
   });
 }).catch(error => {
-  console.error('❌ Failed to start server:', error);
+  // console.error('❌ Failed to start server:', error);
   process.exit(1);
 });

@@ -20,8 +20,8 @@ export const connectDB = async () => {
     // Get database instance
     db = client.db();
     
-    console.log('✅ MongoDB Connected Successfully');
-    console.log(`📊 Database: ${db.databaseName}`);
+    // console.log('✅ MongoDB Connected Successfully');
+    // console.log(`📊 Database: ${db.databaseName}`);
     
     return db;
   } catch (error) {
