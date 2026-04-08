@@ -17,13 +17,13 @@ export const useSocket = () => {
     // Connection event
     socketRef.current.on("connect", () => {
       setConnected(true);
-      console.log("✅ Connected to server:", socketRef.current.id);
+      // console.log("✅ Connected to server:", socketRef.current.id);
     });
 
     // Disconnection event
     socketRef.current.on("disconnect", () => {
       setConnected(false);
-      console.log("❌ Disconnected from server");
+      // console.log("❌ Disconnected from server");
     });
 
     socketRef.current.on("reconnect_attempt", (attempt) => {
@@ -36,7 +36,7 @@ export const useSocket = () => {
     });
 
     socketRef.current.on("connected", (data) => {
-      console.log("📨 Server message:", data.message);
+      // console.log("📨 Server message:", data.message);
     });
 
     return () => {
